@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FlowPilot AI | Workflow Intelligence</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #f6f8fb;
+  color: #172033;
+}
+
+header {
+  background: #172033;
+  color: white;
+  padding: 28px 7%;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.logo span {
+  opacity: .65;
+}
+
+header p {
+  margin: 8px 0 0;
+  color: #cbd3df;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 35px auto;
+  padding: 0 22px;
+}
+
+.hero {
+  margin-bottom: 25px;
+}
+
+.hero h1 {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.hero p {
+  max-width: 750px;
+  color: #687386;
+  line-height: 1.6;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e7ef;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 20px rgba(20,35,60,.05);
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 16px;
+  border: 1px solid #ccd4df;
+  border-radius: 10px;
+  font-size: 15px;
+  resize: vertical;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: #5967f2;
+  box-shadow: 0 0 0 3px rgba(89,103,242,.1);
+}
+
+button {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.primary {
+  background: #5967f2;
+  color: white;
+}
+
+.secondary {
+  background: #eef1ff;
+  color: #4654d9;
+}
+
+.sample-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sample {
+  background: #f1f4f8;
+  color: #344054;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.tab {
+  background: #eef1f5;
+  color: #4c596c;
+}
+
+.tab.active {
+  background: #172033;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #e9f8ef;
+  color: #218447;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.workflow-title {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.task {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 17px 0;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.task:last-child {
+  border-bottom: none;
+}
+
+.task-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eef1ff;
+  color: #4e5be0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.task h4 {
+  margin: 0 0 5px;
+}
+
+.task small {
+  color: #758195;
+}
+
+.badge {
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #f2f4f7;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.metric {
+  padding: 18px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 25px;
+  margin-top: 5px;
+}
+
+.risk {
+  padding: 16px;
+  border-left: 4px solid #e5a63a;
+  background: #fff9ed;
+  margin-bottom: 12px;
+  border-radius: 7px;
+}
+
+.logic {
+  background: #f4f5ff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.question {
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  color: #7b8493;
+  font-size: 13px;
+}
+
+@media(max-width: 750px) {
+  .hero h1 {
+    font-size: 29px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task {
+    grid-template-columns: 35px 1fr;
+  }
+
+  .task .badge {
+    grid-column: 2;
+    width: fit-content;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">FlowPilot <span>AI</span></div>
+    <p>AI-assisted workflow strategy and implementation planning</p>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <h1>Turn business problems into executable workflows.</h1>
+  <p>
+    Describe a process challenge in plain language. FlowPilot analyzes the
+    situation and creates a structured workflow, implementation plan,
+    risks, conditional logic and measurable success criteria.
+  </p>
+</section>
+
+<section class="card">
+
+<label for="scenario">Describe the customer or business problem</label>
+
+<textarea id="scenario">We manage a 300-unit apartment community and are losing potential rental revenue because leasing leads are not being followed up with consistently. Leasing agents currently track prospects using spreadsheets and personal notes. We need a standardized workflow that assigns new leads, schedules follow-ups, tracks tours, reminds agents about applications, escalates inactive prospects, and measures conversion from inquiry to signed lease.</textarea>
+
+<div class="sample-row">
+
+<button class="sample" onclick="loadSample('property')">
+Property Management
+</button>
+
+<button class="sample" onclick="loadSample('saas')">
+SaaS Customer Onboarding
+</button>
+
+<button class="sample" onclick="loadSample('employee')">
+Employee Onboarding
+</button>
+
+<button class="sample" onclick="loadSample('support')">
+Customer Support
+</button>
+
+</div>
+
+<button class="primary" onclick="generateWorkflow()">
+Generate Workflow Intelligence
+</button>
+
+</section>
+
+<section id="results" class="hidden">
+
+<div class="card">
+
+<span class="status">AI ANALYSIS COMPLETE</span>
+
+<h2 class="workflow-title" id="workflowName">
+Workflow Strategy
+</h2>
+
+<p id="summary"></p>
+
+</div>
+
+<div class="tabs">
+
+<button class="tab active" onclick="showTab('workflow', this)">
+Workflow
+</button>
+
+<button class="tab" onclick="showTab('implementation', this)">
+Implementation
+</button>
+
+<button class="tab" onclick="showTab('risks', this)">
+Risks
+</button>
+
+<button class="tab" onclick="showTab('logic', this)">
+Conditional Logic
+</button>
+
+<button class="tab" onclick="showTab('kpis', this)">
+Success Metrics
+</button>
+
+<button class="tab" onclick="showTab('questions', this)">
+Discovery
+</button>
+
+</div>
+
+<div id="workflow" class="tab-content card"></div>
+
+<div id="implementation" class="tab-content card hidden"></div>
+
+<div id="risks" class="tab-content card hidden"></div>
+
+<div id="logic" class="tab-content card hidden"></div>
+
+<div id="kpis" class="tab-content card hidden"></div>
+
+<div id="questions" class="tab-content card hidden"></div>
+
+</section>
+
+</main>
+
+<div class="footer">
+  FlowPilot AI • Interactive workflow strategy prototype
+</div>
+
+<script>
+
+const samples = {
+
+property:
+`We manage a 300-unit apartment community and are losing potential rental revenue because leasing leads are not being followed up with consistently. Leasing agents currently track prospects using spreadsheets and personal notes. We need a standardized workflow that assigns new leads, schedules follow-ups, tracks tours, reminds agents about applications, escalates inactive prospects, and measures conversion from inquiry to signed lease.`,
+
+saas:
+`We are a SaaS company onboarding 20 new customers each month. Our current process relies on email and spreadsheets. Customers frequently miss setup steps and customer success managers spend too much time manually following up. We need a standardized onboarding workflow from signed contract through successful go-live.`,
+
+employee:
+`We are hiring 15 employees over the next 60 days. HR currently manages onboarding through email and spreadsheets. We need a repeatable process for document collection, background checks, equipment, system access, training, manager approvals and first-week follow-up.`,
+
+support:
+`Our customer support team receives hundreds of requests each week through email. Tickets are inconsistently assigned and urgent issues sometimes sit too long. We need a workflow that captures requests, prioritizes them, assigns owners, escalates urgent issues and tracks resolution.`
+
+};
+
+function loadSample(type) {
+  document.getElementById("scenario").value = samples[type];
+}
+
+function generateWorkflow() {
+
+  const text = document.getElementById("scenario").value.toLowerCase();
+
+  document.getElementById("results").classList.remove("hidden");
+
+  let data;
+
+  if (
+    text.includes("apartment") ||
+    text.includes("leasing") ||
+    text.includes("property")
+  ) {
+    data = propertyWorkflow();
+
+  } else if (
+    text.includes("saas") ||
+    text.includes("customer") ||
+    text.includes("onboarding")
+  ) {
+    data = saasWorkflow();
+
+  } else if (
+    text.includes("employee") ||
+    text.includes("hr") ||
+    text.includes("hiring")
+  ) {
+    data = employeeWorkflow();
+
+  } else {
+    data = supportWorkflow();
+  }
+
+  render(data);
+
+  window.scrollTo({
+    top: document.getElementById("results").offsetTop - 20,
+    behavior: "smooth"
+  });
+}
+
+function propertyWorkflow() {
+
+return {
+
+name: "AI-Powered Leasing Lead Conversion Workflow",
+
+summary:
+"Standardizes prospect follow-up from initial inquiry through signed lease while reducing manual tracking and creating measurable accountability for the leasing team.",
+
+tasks: [
+["Capture New Lead","Leasing Coordinator","Immediately"],
+["Assign Leasing Agent","Leasing Manager","Within 15 minutes"],
+["Initial Prospect Contact","Leasing Agent","Within 15 minutes"],
+["Schedule Property Tour","Leasing Agent","Within 24 hours"],
+["Send Tour Confirmation","Automation","Immediately"],
+["Complete Tour & Record Outcome","Leasing Agent","Same day"],
+["Send Application","Leasing Agent","Immediately after qualified tour"],
+["Review Application","Leasing Manager","Within 24 hours"],
+["Escalate Inactive Prospect","Leasing Manager","After 48 hours"],
+["Confirm Lease & Move-In","Leasing Team","Before move-in"]
+],
+
+implementation: [
+["Days 1–5","Discovery & Process Mapping","Document current lead-to-lease process and identify gaps."],
+["Days 6–10","Workflow Design","Create tasks, owners, deadlines and escalation rules."],
+["Days 11–15","Configuration","Configure forms, permissions, notifications and automations."],
+["Days 16–20","Testing","Run sample leads through the workflow and resolve issues."],
+["Days 21–25","Training","Train leasing staff and managers."],
+["Days 26–30","Go-Live","Launch, monitor adoption and collect feedback."]
+],
+
+risks: [
+["Inconsistent adoption","Agents continue using personal notes.","Require workflow completion and manager visibility."],
+["Slow response times","New leads may go untouched.","Add a 15-minute assignment and escalation rule."],
+["Incomplete data","Management cannot measure conversion.","Require key prospect fields before completion."],
+["Process resistance","Staff may see the workflow as extra work.","Demonstrate time saved through automation."]
+],
+
+logic: [
+["IF","New lead is received","THEN","Automatically assign leasing owner."],
+["IF","Lead has not been contacted within 15 minutes","THEN","Notify leasing manager."],
+["IF","Prospect schedules a tour","THEN","Create tour preparation tasks."],
+["IF","Application is incomplete","THEN","Create follow-up task for leasing agent."],
+["IF","Lead is inactive for 48 hours","THEN","Escalate to leasing manager."]
+],
+
+kpis: [
+["Lead Response Time","< 15 minutes"],
+["Tour Conversion","Increase month over month"],
+["Application Conversion","Increase month over month"],
+["Lead Follow-Up Completion","> 95%"],
+["Time to Lease","Reduce average days"]
+],
+
+questions: [
+"What does a qualified lead look like?",
+"Who owns a lead after business hours?",
+"What happens when an agent does not respond on time?",
+"Which lead sources generate the highest conversion?",
+"What information must be captured before a lead can move forward?",
+"Which steps can be automated without reducing the customer experience?"
+]
+
+};
+
+}
+
+function saasWorkflow() {
+
+return {
+
+name:"Customer Onboarding & Go-Live Workflow",
+
+summary:
+"Creates a repeatable onboarding process that moves customers from signed contract through implementation, training and successful adoption.",
+
+tasks:[
+["Confirm Customer Handoff","Customer Success","Day 1"],
+["Collect Customer Requirements","Implementation","Day 2"],
+["Define Success Criteria","Customer Success","Day 3"],
+["Configure Environment","Implementation","Days 4–10"],
+["Customer Testing","Customer","Days 11–15"],
+["Resolve Implementation Issues","Implementation","Days 16–20"],
+["Customer Training","Customer Success","Days 21–23"],
+["Go-Live Approval","Customer Sponsor","Day 24"],
+["Launch","Implementation","Day 25"],
+["30-Day Adoption Review","Customer Success","Day 30"]
+],
+
+implementation:[
+["Week 1","Discovery","Document goals, stakeholders and requirements."],
+["Week 2","Configuration","Build and validate customer environment."],
+["Week 3","Testing","Customer validates workflows and identifies issues."],
+["Week 4","Training & Launch","Train users and complete go-live approval."],
+["Day 30","Optimization","Review adoption and identify improvements."]
+],
+
+risks:[
+["Unclear requirements","Rework during configuration.","Create documented success criteria."],
+["Low customer engagement","Testing and approvals become delayed.","Assign an executive sponsor."],
+["Training gaps","Users do not adopt the platform.","Provide role-based training."]
+],
+
+logic:[
+["IF","Customer requires custom configuration","THEN","Create implementation review task."],
+["IF","Testing fails","THEN","Return workflow to issue resolution."],
+["IF","Customer approves testing","THEN","Unlock go-live approval."],
+["IF","Adoption is below target","THEN","Create customer success intervention."]
+],
+
+kpis:[
+["Time to Go-Live","Reduce average implementation time"],
+["Onboarding Completion","> 95%"],
+["Training Completion","> 90%"],
+["30-Day Adoption","Increase month over month"],
+["Customer Escalations","Decrease"]
+],
+
+questions:[
+"What business outcome does the customer expect?",
+"Who is the executive sponsor?",
+"What integrations are required?",
+"What does successful adoption look like?",
+"Which users need training?",
+"What conditions must be met before go-live?"
+]
+
+};
+
+}
+
+function employeeWorkflow() {
+
+return {
+
+name:"Employee Onboarding Workflow",
+
+summary:"Standardizes employee onboarding across HR, IT and managers.",
+
+tasks:[
+["Collect Employee Documents","HR","Before start date"],
+["Complete Background Check","HR","Before start date"],
+["Create Accounts","IT","Before start date"],
+["Prepare Equipment","IT","Before start date"],
+["Manager Welcome","Manager","Day 1"],
+["Complete Orientation","HR","Day 1"],
+["Role Training","Manager","Days 2–5"],
+["30-Day Check-In","Manager","Day 30"]
+],
+
+implementation:[
+["Week 1","Map Current Process","Document HR, IT and manager responsibilities."],
+["Week 2","Build Workflow","Configure tasks and deadlines."],
+["Week 3","Test","Run sample employee onboarding."],
+["Week 4","Launch","Train HR and managers."]
+],
+
+risks:[
+["Missing documents","Employee cannot start.","Add required fields and reminders."],
+["Delayed equipment","Employee loses productivity.","Add pre-start IT deadline."],
+["Unclear ownership","Tasks remain incomplete.","Assign tasks by role."]
+],
+
+logic:[
+["IF","Employee is remote","THEN","Create equipment shipping task."],
+["IF","Employee needs special software","THEN","Create IT approval task."],
+["IF","Documents are incomplete","THEN","Notify HR."]
+],
+
+kpis:[
+["Pre-Start Completion","> 95%"],
+["Day-One Readiness","> 95%"],
+["Training Completion","> 90%"],
+["Onboarding Time","Reduce average time"]
+],
+
+questions:[
+"What must be completed before Day 1?",
+"Which systems does each role require?",
+"Who approves access?",
+"What equipment does the employee need?",
+"How will onboarding success be measured?"
+]
+
+};
+
+}
+
+function supportWorkflow() {
+
+return {
+
+name:"Customer Support Request & Escalation Workflow",
+
+summary:"Creates a consistent support process that prioritizes requests, assigns ownership and escalates issues based on urgency.",
+
+tasks:[
+["Capture Support Request","Support Intake","Immediately"],
+["Classify Priority","Support Agent","Within 15 minutes"],
+["Assign Owner","Support Manager","Immediately"],
+["Investigate Issue","Support Agent","Based on SLA"],
+["Escalate Critical Issues","Support Manager","Immediately"],
+["Resolve Request","Support Agent","Based on SLA"],
+["Confirm Customer Resolution","Support Agent","After resolution"],
+["Close & Categorize","Support Agent","Same day"]
+],
+
+implementation:[
+["Week 1","Discovery","Map current support intake and escalation process."],
+["Week 2","Workflow Build","Configure categories, ownership and SLAs."],
+["Week 3","Testing","Test normal and urgent requests."],
+["Week 4","Launch","Train support team and monitor results."]
+],
+
+risks:[
+["Incorrect prioritization","Critical requests delayed.","Use defined severity criteria."],
+["Poor ownership","Tickets remain unassigned.","Require assignment before progression."],
+["Weak documentation","Recurring problems are harder to solve.","Require resolution notes."]
+],
+
+logic:[
+["IF","Priority is Critical","THEN","Notify manager immediately."],
+["IF","Request exceeds SLA","THEN","Escalate automatically."],
+["IF","Customer confirms resolution","THEN","Close workflow."],
+["IF","Customer rejects resolution","THEN","Return to investigation."]
+],
+
+kpis:[
+["First Response Time","Reduce"],
+["SLA Compliance","> 95%"],
+["Resolution Time","Reduce"],
+["Escalation Rate","Decrease"],
+["Customer Confirmation","> 90%"]
+],
+
+questions:[
+"How are support requests currently prioritized?",
+"What qualifies as a critical issue?",
+"Who owns escalations?",
+"What are the current SLAs?",
+"How are recurring issues documented?"
+]
+
+};
+
+}
+
+function render(data) {
+
+document.getElementById("workflowName").innerText = data.name;
+document.getElementById("summary").innerText = data.summary;
+
+document.getElementById("workflow").innerHTML =
+data.tasks.map((task,index)=>`
+<div class="task">
+<div class="task-number">${index+1}</div>
+<div>
+<h4>${task[0]}</h4>
+<small>Owner: ${task[1]} • Due: ${task[2]}</small>
+</div>
+<div class="badge">TASK</div>
+</div>
+`).join("");
+
+document.getElementById("implementation").innerHTML =
+"<h3>30-Day Implementation Plan</h3>" +
+data.implementation.map(item=>`
+<div class="task">
+<div class="task-number">✓</div>
+<div>
+<h4>${item[0]} — ${item[1]}</h4>
+<small>${item[2]}</small>
+</div>
+</div>
+`).join("");
+
+document.getElementById("risks").innerHTML =
+"<h3>Implementation Risk Analysis</h3>" +
+data.risks.map(r=>`
+<div class="risk">
+<strong>${r[0]}</strong><br>
+${r[1]}<br>
+<strong>Mitigation:</strong> ${r[2]}
+</div>
+`).join("");
+
+document.getElementById("logic").innerHTML =
+"<h3>Conditional Logic</h3>" +
+data.logic.map(l=>`
+<div class="logic">
+<strong>${l[0]}</strong> ${l[1]}
+<br>
+<strong>${l[2]}</strong> ${l[3]}
+</div>
+`).join("");
+
+document.getElementById("kpis").innerHTML =
+"<h3>Success Metrics</h3><div class='grid'>" +
+data.kpis.map(k=>`
+<div class="metric">
+${k[0]}
+<strong>${k[1]}</strong>
+</div>
+`).join("") +
+"</div>";
+
+document.getElementById("questions").innerHTML =
+"<h3>Customer Discovery Questions</h3>" +
+data.questions.map((q,i)=>`
+<div class="question">
+<strong>${i+1}.</strong> ${q}
+</div>
+`).join("");
+
+}
+
+function showTab(id,button) {
+
+document.querySelectorAll(".tab-content")
+.forEach(el=>el.classList.add("hidden"));
+
+document.getElementById(id)
+.classList.remove("hidden");
+
+document.querySelectorAll(".tab")
+.forEach(btn=>btn.classList.remove("active"));
+
+button.classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>
